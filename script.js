@@ -1,21 +1,35 @@
-var nowTime = new Date();
-document.getElementById('secondHandLine').setAttribute('transform', 'rotate(' + nowTime.getSeconds()/60*360 + ')');
-document.getElementById('minuteHandLine').setAttribute('transform', 'rotate(' + nowTime.getMinutes()/60*360 + ')');
-document.getElementById('hourHandLine').setAttribute('transform', 'rotate(' + (nowTime.getHours()%12)/12*360 + ')');
-var months = new Array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
-document.getElementById('calendarMonth').textContent = months[nowTime.getMonth()];
-document.getElementById('calendarYear').textContent = nowTime.getFullYear();
-var firstDay = new Date(nowTime.getFullYear(), nowTime.getMonth(),1).getDay();
-var endDate = new Date(nowTime.getFullYear(), nowTime.getMonth()+1,0).getDate();
+var $ = {
+  id: function(id) {
+      return document.getElementById(id);
+  },
+};
+
+var now = moment();
+var nowTime = new Date(); // x
+var angle_of_second_hand = now.seconds() / 60 * 360;
+var angle_of_minute_hand = now.minutes() / 60 * 360;
+var angle_of_hour_hand = (now.hours() % 12) / 12 * 360;
+
+$.id('secondHandLine').setAttribute('transform', `rotate(${angle_of_second_hand})`);
+$.id('minuteHandLine').setAttribute('transform', `rotate(${angle_of_minute_hand})`);
+$.id('hourHandLine').setAttribute('transform', `rotate(${angle_of_hour_hand})`);
+
+$.id('calendarMonth').textContent = now.format('dddd');
+$.id('calendarYear').textContent = now.years();
+
+var firstDay = now.clone().date(1).day();
+var endDate = now.daysInMonth()
 var dayCounter = 1;
+
 for(var i=0; i <= 37; i++) {
   if(i > firstDay) {
-    document.getElementById('calendarDay' + i).textContent = (dayCounter < 10) ? '0' + dayCounter : dayCounter;
+    $.id('calendarDay' + i).textContent = `0${dayCounter}`.slice(-2);
     dayCounter++;
     if(dayCounter > endDate) {
       break;
     }
   }
 }
-document.getElementById('calendarDay' + (firstDay + nowTime.getDate())).setAttribute('fill', '#E76C6C');
-document.getElementById('calendarDay' + (firstDay + nowTime.getDate())).setAttribute('font-weight', 'bold');
+
+$.id('calendarDay' + (firstDay + now.date())).setAttribute('fill', '#e76c6c');
+$.id('calendarDay' + (firstDay + now.date())).setAttribute('font-weight', 'bold');
