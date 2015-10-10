@@ -14,7 +14,7 @@ $.id('secondHandLine').setAttribute('transform', `rotate(${angle_of_second_hand}
 $.id('minuteHandLine').setAttribute('transform', `rotate(${angle_of_minute_hand})`);
 $.id('hourHandLine').setAttribute('transform', `rotate(${angle_of_hour_hand})`);
 
-$.id('calendarMonth').textContent = now.format('dddd');
+$.id('calendarMonth').textContent = now.format('MMMM');
 $.id('calendarYear').textContent = now.years();
 
 var firstDay = now.clone().date(1).day();
